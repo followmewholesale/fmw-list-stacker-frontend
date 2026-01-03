@@ -8,111 +8,19 @@
 </head>
 <body>
 
-<div id="app-shell" class="app-shell locked">
+  <!-- APP SHELL -->
+  <div id="app-shell" class="app-shell">
 
-  <!-- LOCK OVERLAY -->
-  <div class="app-lock-overlay" id="lockOverlay">
-    <div class="login-bg"></div>
-
-    <div class="lock-content">
-      <div class="brand-name">Follow Me Wholesale</div>
-      <div class="login-title">List Stacker Tool</div>
-      <div class="login-subtitle">
-        Members-only tool. Active access required.
-      </div>
-
-      <ul class="login-features">
-        <li>Stack up to 6 lead lists</li>
-        <li>Detect multi-source owner signals</li>
-        <li>Reveal motivation patterns</li>
-        <li>Export skip-trace-ready data</li>
-      </ul>
-
-      <button class="whop-login-btn" id="unlockWithWhop">
-        Unlock with Whop
-      </button>
-
-      <div class="lock-microcopy">
-        Already a member? Access is verified automatically.
-      </div>
+    <!-- APP CONTENT -->
+    <div class="app-content" id="appContent">
+      <!-- UI renders here -->
     </div>
+
   </div>
 
-  <!-- REAL APP -->
-  <div class="app-content" id="appContent" aria-hidden="true"></div>
-</div>
-
-<script>
-(async function () {
-  const appShell    = document.getElementById("app-shell");
-  const lockOverlay = document.getElementById("lockOverlay");
-  const appContent  = document.getElementById("appContent");
-  const unlockBtn   = document.getElementById("unlockWithWhop");
-
-  const params = new URLSearchParams(window.location.search);
-  const sessionSuccess = params.get("session") === "success";
-
-  // --------------------------------
-  // 🔐 FINALIZE SESSION IF RETURNING
-  // --------------------------------
-  if (sessionSuccess) {
-    try {
-      await fetch("/api/auth/session", {
-        method: "POST",
-        credentials: "include"
-      });
-
-      // Clean URL + reload into authenticated state
-      window.location.replace("/index.html");
-      return;
-    } catch (e) {
-      console.error("Session finalize failed", e);
-    }
-  }
-
-  // --------------------------------
-  // 🔐 CHECK AUTH COOKIE
-  // --------------------------------
-  async function checkAuth() {
-    try {
-      const res = await fetch("/api/auth/check", {
-        credentials: "include"
-      });
-      const data = await res.json();
-      return data.authenticated === true;
-    } catch {
-      return false;
-    }
-  }
-
-  function unlockApp() {
-    appShell.classList.remove("locked");
-    lockOverlay.style.display = "none";
-    appContent.removeAttribute("aria-hidden");
-
-    ["engine.js", "ui.js"].forEach(src => {
-      const s = document.createElement("script");
-      s.src = src;
-      s.defer = true;
-      document.body.appendChild(s);
-    });
-  }
-
-  const isAuthenticated = await checkAuth();
-
-  if (isAuthenticated) {
-    unlockApp();
-    return;
-  }
-
-  // --------------------------------
-  // 🔑 START LOGIN
-  // --------------------------------
-  unlockBtn.addEventListener("click", () => {
-    window.location.href = "/api/oauth/start";
-  });
-})();
-</script>
+  <!-- LOAD CORE APP LOGIC -->
+  <script src="engine.js" defer></script>
+  <script src="ui.js" defer></script>
 
 </body>
 </html>
