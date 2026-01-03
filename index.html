@@ -53,21 +53,37 @@
   const sessionSuccess = params.get("session") === "success";
 
   // --------------------------------
+  // 🔓 UNLOCK APP FUNCTION
+  // --------------------------------
+  function unlockApp() {
+    appShell.classList.remove("locked");
+    lockOverlay.style.display = "none";
+    appContent.removeAttribute("aria-hidden");
+
+    ["engine.js", "ui.js"].forEach(src => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.defer = true;
+      document.body.appendChild(s);
+    });
+  }
+
+  // --------------------------------
   // 🔐 FINALIZE SESSION IF RETURNING
   // --------------------------------
   if (sessionSuccess) {
-    try {
-      await fetch("/api/auth/session", {
-        method: "POST",
-        credentials: "include"
-      });
+    // Set cookie in background for future visits
+    fetch("/api/auth/session", {
+      method: "POST",
+      credentials: "include"
+    }).catch(() => {});
 
-      // Clean URL + reload into authenticated state
-      window.location.replace("/index.html");
-      return;
-    } catch (e) {
-      console.error("Session finalize failed", e);
-    }
+    // Unlock app immediately (don't wait for cookie)
+    unlockApp();
+
+    // Clean URL without reload
+    window.history.replaceState({}, "", "/index.html");
+    return;
   }
 
   // --------------------------------
@@ -83,19 +99,6 @@
     } catch {
       return false;
     }
-  }
-
-  function unlockApp() {
-    appShell.classList.remove("locked");
-    lockOverlay.style.display = "none";
-    appContent.removeAttribute("aria-hidden");
-
-    ["engine.js", "ui.js"].forEach(src => {
-      const s = document.createElement("script");
-      s.src = src;
-      s.defer = true;
-      document.body.appendChild(s);
-    });
   }
 
   const isAuthenticated = await checkAuth();
