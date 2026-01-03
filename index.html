@@ -2,25 +2,209 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>List Stacker Tool | Follow Me Wholesale</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Follow Me Wholesale — List Stacker</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/x-icon" href="fmw-favicon.ico" />
+
+  <!-- STYLES -->
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
 
-  <!-- APP SHELL -->
-  <div id="app-shell" class="app-shell">
+  <!-- ============================
+       NAV / BRAND BAR
+  ============================ -->
+  <header class="top-bar">
+    <div class="brand">
+      <img src="fmw-logo.png" alt="Follow Me Wholesale" class="brand-logo" />
+      <span>Follow Me Wholesale</span>
 
-    <!-- APP CONTENT -->
-    <div class="app-content" id="appContent">
-      <!-- UI renders here -->
+      <!-- VERSION TAG -->
+      <span class="version-tag">v1.0 Temple Build</span>
     </div>
 
+    <div class="nav-cta">
+      <span class="pill private-pill">🔒 Private Tool</span>
+    </div>
+  </header>
+
+  <!-- ============================
+       HERO
+  ============================ -->
+  <section class="hero">
+    <h1>
+      Stack Your Lists.<br />
+      <span>Reveal True Motivation.</span>
+    </h1>
+
+    <p class="hero-sub">
+      A private acquisition engine used to surface ownership patterns
+      that quietly repeat across independent sources.
+    </p>
+
+    <div class="hero-actions">
+      <button class="primary">Enter the Tool</button>
+      <button class="secondary" id="how-it-works-btn">
+        How It Works
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================
+       HOW IT WORKS (MINIMUM VERSION)
+  ============================ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="how-inner">
+      <h2>How It Works</h2>
+
+      <p>
+        This tool observes ownership signals that appear repeatedly across
+        independent data sources.
+      </p>
+
+      <p>
+        When the same owner or property surfaces more than once,
+        it suggests a higher likelihood of real motivation.
+      </p>
+
+      <p>
+        Instead of chasing single lists, you focus on patterns
+        that persist — quietly, consistently, and intentionally.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================
+       TOOL CONTAINER
+  ============================ -->
+  <main class="app-shell">
+
+    <section class="app-header">
+      <h2>List Stacker</h2>
+      <p>Upload up to 6 lists. Results must appear on 2+ sources.</p>
+    </section>
+
+    <!-- LIST CONTAINER -->
+    <div id="lists-container"></div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="controls">
+      <button id="add-list-btn">➕ Add List</button>
+      <button id="run-stack-btn">▶ Run Stack</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results"></div>
+
+  </main>
+
+  <!-- ============================
+       FOOTER
+  ============================ -->
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <span>Follow Me Wholesale</span>
+      <span class="footer-sub">
+        Official Education & Acquisition Platform
+      </span>
+    </div>
+
+    <div class="footer-social">
+      <a
+        href="https://www.tiktok.com/@followmewholesale?_r=1&_t=ZP-92eWIi8WVXb"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Follow Me Wholesale on TikTok"
+      >
+        <img src="icon-tiktok.svg" alt="TikTok" />
+      </a>
+
+      <a
+        href="https://www.youtube.com/@FollowMeWholesale"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Follow Me Wholesale on YouTube"
+      >
+        <img src="icon-youtube.svg" alt="YouTube" />
+      </a>
+    </div>
+
+    <!-- LEGAL LINKS -->
+    <div class="footer-legal">
+      <a href="#" onclick="openLegal('privacy')">Privacy</a>
+      <span>•</span>
+      <a href="#" onclick="openLegal('terms')">Terms</a>
+    </div>
+  </footer>
+
+  <!-- ============================
+       WATERMARK
+  ============================ -->
+  <div class="watermark">
+    Powered by Follow Me Wholesale
   </div>
 
-  <!-- LOAD CORE APP LOGIC -->
-  <script src="engine.js" defer></script>
-  <script src="ui.js" defer></script>
+  <!-- ============================
+       LEGAL MODAL
+  ============================ -->
+  <div id="legal-modal" class="legal-modal hidden">
+    <div class="legal-box">
+      <h3 id="legal-title"></h3>
+      <p id="legal-content"></p>
+
+      <button class="secondary" onclick="closeLegal()">Close</button>
+    </div>
+  </div>
+
+  <!-- ============================
+       LIBRARIES
+  ============================ -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- ENGINE -->
+  <script src="engine.js"></script>
+
+  <!-- UI -->
+  <script src="ui.js"></script>
+
+  <!-- ============================
+       SMOOTH SCROLL
+  ============================ -->
+  <script>
+    document
+      .getElementById("how-it-works-btn")
+      .addEventListener("click", () => {
+        document
+          .getElementById("how-it-works")
+          .scrollIntoView({ behavior: "smooth" });
+      });
+
+    function openLegal(type) {
+      const title = document.getElementById("legal-title");
+      const content = document.getElementById("legal-content");
+      const modal = document.getElementById("legal-modal");
+
+      if (type === "privacy") {
+        title.textContent = "Privacy Notice";
+        content.textContent =
+          "This is an internal educational tool. No uploaded data is stored, transmitted, or shared. All processing occurs locally in your browser.";
+      }
+
+      if (type === "terms") {
+        title.textContent = "Terms of Use";
+        content.textContent =
+          "This tool is provided for educational purposes only. Users are responsible for how they apply outputs. Follow Me Wholesale assumes no liability for decisions made using this tool.";
+      }
+
+      modal.classList.remove("hidden");
+    }
+
+    function closeLegal() {
+      document.getElementById("legal-modal").classList.add("hidden");
+    }
+  </script>
 
 </body>
 </html>
