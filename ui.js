@@ -5,9 +5,6 @@
 
 /* ============================
    ACCESS CHECK (NON-BLOCKING)
-   - Allows Netlify direct usage
-   - Allows Whop iframe usage
-   - Preserves login.html for future
 ============================ */
 (function accessGate() {
   const isInsideWhop = (() => {
@@ -18,10 +15,6 @@
     }
   })();
 
-  // Phase 1 access rule:
-  // - If inside Whop → allow
-  // - If direct Netlify → allow
-  // - No backend yet
   const HAS_ACCESS = isInsideWhop || location.protocol.startsWith("http");
 
   if (!HAS_ACCESS) {
@@ -63,18 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const enterToolBtn     = document.querySelector(".hero-actions .primary");
   const appShell         = document.querySelector(".app-shell");
 
-  /* ============================
-     SAFETY CHECK (NO BLACK SCREEN)
-  ============================ */
   if (!listsContainer || !runStackBtn || !resultsContainer) {
-    console.warn(
-      "List Stacker UI did not initialize — missing DOM elements.",
-      {
-        listsContainer,
-        runStackBtn,
-        resultsContainer
-      }
-    );
+    console.warn("List Stacker UI missing required DOM nodes.");
     return;
   }
 
@@ -93,23 +76,25 @@ document.addEventListener("DOMContentLoaded", () => {
   let listCount = 0;
   const MAX_LISTS = 6;
 
-  const LIST_TYPES = [
-    "Code Violations",
-    "Tax Delinquent",
-    "Probate",
-    "Water Shutoff",
-    "Evictions",
-    "Utility Liens",
-    "HOA Liens",
-    "Other"
-  ];
+  /* ============================
+     🔧 FIX: RENDER LIST BLOCK
+  ============================ */
+  function renderListBlock(index) {
+    const block = document.createElement("div");
+    block.className = "list-block";
 
-  const STATES = [
-    "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
-    "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-    "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
-    "VA","WA","WV","WI","WY"
-  ];
+    block.innerHTML = `
+      <div class="list-block-header">
+        <strong>List ${index}</strong>
+      </div>
+
+      <div class="list-block-body">
+        <input type="file" accept=".csv,.xlsx" class="list-file-input" />
+      </div>
+    `;
+
+    listsContainer.appendChild(block);
+  }
 
   /* ============================
      EVENT BINDINGS
@@ -119,12 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Maximum of 6 lists allowed.");
       return;
     }
+
     listCount++;
-    if (typeof renderListBlock === "function") {
-      renderListBlock(listCount);
-    } else {
-      console.error("renderListBlock() is not defined");
-    }
+    renderListBlock(listCount);
   });
 
   runStackBtn.addEventListener("click", () => {
