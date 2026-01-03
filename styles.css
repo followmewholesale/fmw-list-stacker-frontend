@@ -1,290 +1,296 @@
 /* ============================
-   GLOBAL RESET
+   GLOBAL
 ============================ */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
 }
 
 html,
 body {
-  width: 100%;
   height: 100%;
 }
 
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #020617;
+  background: radial-gradient(circle at top, #0b1220, #020617);
   color: #e5e7eb;
-
-  opacity: 0;
-  animation: pageFadeIn 0.8s ease-out forwards;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes pageFadeIn {
-  to { opacity: 1; }
+/* ============================
+   TOP BAR
+============================ */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+  background: rgba(2, 6, 23, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.brand img {
+  height: 28px;
+}
+
+/* VERSION TAG */
+.version-tag {
+  margin-left: 10px;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  color: #9ca3af;
+  border: 1px solid rgba(255,255,255,0.08);
+  letter-spacing: 0.02em;
+}
+
+/* ============================
+   PILLS / BADGES
+============================ */
+.pill {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.private-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+/* ============================
+   HERO
+============================ */
+.hero {
+  max-width: 960px;
+  margin: 90px auto 70px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero h1 span {
+  color: #818cf8;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: #9ca3af;
+  max-width: 640px;
+  margin: 0 auto 34px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ============================
+   BUTTONS
+============================ */
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.45); }
+  50% { box-shadow: 0 0 24px 6px rgba(99,102,241,0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.45); }
+}
+
+button.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ============================
+   HOW IT WORKS
+============================ */
+.how-it-works {
+  max-width: 820px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.how-inner {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 36px 28px;
 }
 
 /* ============================
    APP SHELL
 ============================ */
 .app-shell {
-  position: relative;
-  min-height: 100vh;
-}
-
-.app-shell.locked {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.app-shell.locked .app-content {
-  pointer-events: none;
-  filter: blur(4px) brightness(0.65);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  flex: 1;
 }
 
 /* ============================
-   FULLSCREEN LOCK OVERLAY
+   FOOTER
 ============================ */
-.app-lock-overlay {
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(6,11,25,0.85);
+}
+
+/* LEGAL */
+.footer-legal {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.footer-legal a {
+  color: #9ca3af;
+  text-decoration: none;
+}
+
+.footer-legal a:hover {
+  text-decoration: underline;
+}
+
+/* ============================
+   SOCIAL ICONS — SVG SAFE LOCK
+============================ */
+.footer-social {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+}
+
+.footer-social img,
+.footer-social svg {
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
+  object-fit: contain;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-social img:hover,
+.footer-social svg:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+/* ============================
+   LEGAL MODAL
+============================ */
+.legal-modal {
   position: fixed;
   inset: 0;
-  z-index: 1000;
-
+  background: rgba(2,6,23,0.75);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999;
+}
 
-  padding: 48px 20px;
-  overflow: hidden;
+.legal-modal.hidden {
+  display: none;
+}
+
+.legal-box {
+  background: rgba(15,23,42,0.95);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 420px;
+  text-align: center;
+}
+
+.legal-box h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #c7d2fe;
+}
+
+.legal-box p {
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin-bottom: 24px;
 }
 
 /* ============================
-   BACKGROUND MIRAGE
+   WATERMARK
 ============================ */
-.app-lock-overlay .login-bg {
-  position: absolute;
-  inset: 0;
-
-  background-image: url("list-stacker-logo.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  opacity: 0.32;
-  filter: blur(1.6px) saturate(1.15) contrast(1.08);
-  transform: scale(1.08);
-
-  z-index: 0;
+.watermark {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.22);
   pointer-events: none;
 }
 
 /* ============================
-   CINEMATIC DARK OVERLAY
-============================ */
-.app-lock-overlay::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(2, 6, 23, 0.55),
-      rgba(2, 6, 23, 0.96)
-    );
-}
-
-/* ============================
-   LOCK CONTENT CARD (UI CORE)
-============================ */
-.lock-content {
-  position: relative;
-  z-index: 2;
-
-  max-width: 560px;
-  width: 100%;
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 38px 34px;
-  border-radius: 22px;
-
-  background: rgba(2, 6, 23, 0.55);
-  backdrop-filter: blur(18px) saturate(1.1);
-  -webkit-backdrop-filter: blur(18px) saturate(1.1);
-
-  box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.55),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-
-  animation: riseIn 0.7s ease-out forwards;
-}
-
-@keyframes riseIn {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ============================
-   BRANDING / COPY
-============================ */
-.brand-name {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #9ca3af;
-  margin-bottom: 10px;
-}
-
-.login-title {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-bottom: 10px;
-}
-
-.login-subtitle {
-  font-size: 16px;
-  color: #c7d2fe;
-  line-height: 1.6;
-  margin-bottom: 22px;
-}
-
-/* ============================
-   FEATURE LIST
-============================ */
-.login-features {
-  margin-bottom: 26px;
-}
-
-.login-features ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.login-features li {
-  font-size: 15px;
-  line-height: 1.55;
-  color: #e0e7ff;
-  margin-bottom: 6px;
-}
-
-/* ============================
-   PRIMARY CTA (WHOP)
-============================ */
-.whop-login-btn {
-  width: 100%;
-  max-width: 340px;
-
-  background: linear-gradient(135deg, #ff6a00, #ff8c1a);
-  color: #ffffff;
-
-  font-size: 16px;
-  padding: 15px;
-  border-radius: 14px;
-  border: none;
-
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-
-  margin-top: 4px;
-
-  box-shadow:
-    0 14px 40px rgba(255, 106, 0, 0.45),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.whop-login-btn:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 20px 55px rgba(255, 106, 0, 0.55),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.25);
-}
-
-/* ============================
-   MICROCOPY
-============================ */
-.lock-microcopy {
-  margin-top: 10px;
-  font-size: 12px;
-  color: #9ca3af;
-}
-
-/* ============================
-   REAL APP CONTENT
-============================ */
-.app-content {
-  position: relative;
-  z-index: 1;
-  padding: 40px;
-}
-
-/* ============================
-   MOBILE TUNING
+   MOBILE
 ============================ */
 @media (max-width: 640px) {
-
-  .lock-content {
-    padding: 32px 24px;
+  .hero h1 {
+    font-size: 36px;
   }
 
-  .login-title {
-    font-size: 24px;
+  .site-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
   }
-
-  .login-subtitle {
-    font-size: 14px;
-  }
-
-  .login-features li {
-    font-size: 13.5px;
-  }
-
-  .whop-login-btn {
-    font-size: 15px;
-    padding: 14px;
-  }
-
-  .app-lock-overlay .login-bg {
-    opacity: 0.25;
-    filter: blur(1.2px) saturate(1.05);
-    transform: scale(1.04);
-  }
-}
-
-/* ============================
-   WHOP IFRAME SAFETY
-============================ */
-html.inside-whop,
-html.inside-whop body {
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: auto !important;
-}
-
-html.inside-whop .app-lock-overlay {
-  position: relative !important;
-  inset: auto !important;
-}
-
-html.inside-whop .login-bg,
-html.inside-whop .app-lock-overlay::after {
-  display: none !important;
 }
