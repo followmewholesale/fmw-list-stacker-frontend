@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>List Stacker Tool | Follow Me Wholesale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============================
+     LOGIN GATE
+============================= -->
+<div class="login-gate" id="loginGate">
+
+  <!-- BACKGROUND MIRAGE -->
+  <div class="login-bg"></div>
+
+  <!-- ============================
+       CENTERED CONTENT WRAPPER
+       (THIS FIXES TOP-LEFT ISSUE)
+  ============================= -->
+  <div class="login-center">
+
+    <!-- ============================
+         CONTEXT / POSITIONING
+    ============================= -->
+    <div class="branding">
+      <div class="brand-name">Follow Me Wholesale</div>
+
+      <div class="login-title">List Stacker Tool</div>
+
+      <div class="login-subtitle">
+        This is a members-only tool.<br />
+        Active access is required to continue.
+      </div>
+
+      <div class="login-features">
+        <ul>
+          <li>Stack up to 6 lead lists at once</li>
+          <li>Identify overlapping owner signals</li>
+          <li>Surface true motivation patterns</li>
+          <li>Export skip-trace-ready data</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ============================
+         AUTH OPTIONS
+    ============================= -->
+    <div class="login-box">
+      <button class="whop-login-btn" id="whopLogin">
+        Unlock with Whop
+      </button>
+
+      <div class="lock-microcopy">
+        Instant access for active members
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================
+     REAL APP CONTAINER
+============================= -->
+<div id="appContainer" style="display:none;">
+  <!-- Your actual app mounts here -->
+</div>
+
+<!-- ============================
+     SCRIPT
+============================= -->
+<script>
+(function () {
+
+  const params = new URLSearchParams(window.location.search);
+  const accessGranted = params.get("access") === "granted";
+
+  const loginGate = document.getElementById("loginGate");
+  const appContainer = document.getElementById("appContainer");
+  const whopLoginBtn = document.getElementById("whopLogin");
+
+  // ============================
+  // AUTO-UNLOCK IF AUTHORIZED
+  // ============================
+  if (accessGranted) {
+    loginGate.style.display = "none";
+    appContainer.style.display = "block";
+
+    // Load real app scripts AFTER access
+    ["engine.js", "ui.js"].forEach(src => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.defer = true;
+      document.body.appendChild(s);
+    });
+
+    return;
+  }
+
+  // ============================
+  // WHOP LOGIN BUTTON
+  // ============================
+  whopLoginBtn.addEventListener("click", () => {
+    window.location.href =
+      "https://fmw-list-stacker-backend.onrender.com/api/oauth/start";
+  });
+
+})();
+</script>
+
+</body>
+</html>
