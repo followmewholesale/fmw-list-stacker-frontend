@@ -1,5 +1,5 @@
 /* ============================
-   GLOBAL
+   GLOBAL (IFRAME SAFE)
 ============================ */
 * {
   box-sizing: border-box;
@@ -7,7 +7,8 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
+  height: auto;
 }
 
 body {
@@ -15,8 +16,10 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: radial-gradient(circle at top, #0b1220, #020617);
   color: #e5e7eb;
-  display: flex;
-  flex-direction: column;
+
+  /* IMPORTANT: iframe-safe layout */
+  display: block;
+  overflow-y: auto;
 }
 
 /* ============================
@@ -160,13 +163,36 @@ button:hover {
 }
 
 /* ============================
-   APP SHELL
+   APP SHELL (CRITICAL FIX)
 ============================ */
 .app-shell {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  flex: 1;
+
+  /* iframe-safe */
+  min-height: 400px;
+  height: auto;
+  overflow: visible;
+}
+
+/* ============================
+   LIST STACKER VISIBILITY FIX
+============================ */
+#lists-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+  height: auto;
+  overflow: visible;
+}
+
+#lists-container > * {
+  display: block;
+  position: relative;
+  visibility: visible;
+  opacity: 1;
 }
 
 /* ============================
@@ -197,7 +223,7 @@ button:hover {
 }
 
 /* ============================
-   SOCIAL ICONS — SVG SAFE LOCK
+   SOCIAL ICONS
 ============================ */
 .footer-social {
   display: flex;
@@ -216,8 +242,6 @@ button:hover {
 .footer-social svg {
   width: 18px;
   height: 18px;
-  max-width: 18px;
-  max-height: 18px;
   object-fit: contain;
   opacity: 0.55;
   transition: opacity 0.2s ease, transform 0.2s ease;
