@@ -114,6 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </select>
       </label>
 
+      <label>Default Property City
+        <input
+          type="text"
+          class="default-property-city"
+          placeholder="e.g. Cleveland"
+        />
+      </label>
+
       <label>Upload CSV / XLSX
         <input type="file" class="file-input" data-list="${index}" accept=".csv,.xlsx">
       </label>
@@ -166,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = `
       <hr>
       ${mapSelect("Property Address", "address", headers)}
+      ${mapSelect("Property City", "propertyCity", headers, true)}
       ${mapSelect("Owner Name", "owner", headers, true)}
       ${mapSelect("Mailing Address", "mailing", headers, true)}
       ${mapSelect("Mailing City", "mailingCity", headers, true)}
@@ -193,7 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveMapping(idx) {
     const block = document.querySelector(`.list-block[data-list="${idx}"]`);
     listConfigs[idx] = {
-      defaultPropertyState: block.querySelector(".default-property-state").value
+      defaultPropertyState: block.querySelector(".default-property-state").value,
+      defaultPropertyCity: block.querySelector(".default-property-city").value
     };
 
     block.querySelectorAll("select[data-map]").forEach(sel => {
@@ -216,6 +226,10 @@ document.addEventListener("DOMContentLoaded", () => {
         rows: d.rows.map(r => ({
           owner: r[cfg.owner] || "",
           property: r[cfg.address] || "",
+          propertyCity:
+            r[cfg.propertyCity] ||
+            cfg.defaultPropertyCity ||
+            "",
           propertyState: cfg.defaultPropertyState || "",
           mailing: r[cfg.mailing] || "",
           mailingCity: r[cfg.mailingCity] || "",
